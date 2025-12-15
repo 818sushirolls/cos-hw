@@ -21,7 +21,7 @@ on:
     - .github/workflows/webhookclient.yml
 
 env:
-  SERVICE: webhookclient
+  SERVICE: webhooks-client
   IMAGE: webhookclient
 
 jobs:
