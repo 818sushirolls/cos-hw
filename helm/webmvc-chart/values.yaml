@@ -1,0 +1,86 @@
+# Default values for webmvc
+replicaCount: 1
+
+image:
+  repository: ew8nought/webmvc
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+# Namespace to deploy to (from Week 11)
+namespace: eshop-frontend
+
+# Service account (from Week 11) - already exists, don't recreate
+serviceAccount:
+  create: false
+  name: "eshop-frontend-deployer"
+  annotations: {}
+  automountServiceAccountToken: true
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+
+# Resource limits and requests (from Week 12)
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# Autoscaling configuration (from Week 12)
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# Ingress configuration (from Week 10) - disabled, using existing eshop-ingress
+ingress:
+  enabled: false
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: webmvc.eshop.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Probes configuration (from Week 9)
+probes:
+  liveness:
+    enabled: true
+    path: /hc
+    initialDelaySeconds: 15
+    periodSeconds: 10
+    timeoutSeconds: 5
+  readiness:
+    enabled: true
+    path: /hc
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 3
+
+# Application configuration
+environment: Development
+PurchaseUrl: "http://webshoppingapigw.eshop-gateways.svc.cluster.local"
+IdentityUrl: "http://identity-api.eshop-apis.svc.cluster.local"
+SignalrHubUrl: "http://ordering-signalrhub.eshop-background.svc.cluster.local"
+IdentityUrlHC: "http://identity-api.eshop-apis.svc.cluster.local/hc"
+UseCustomizationData: true
+UseLoadTest: false
+
+# Node selector, tolerations, and affinity
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Name overrides
+nameOverride: ""
+fullnameOverride: ""

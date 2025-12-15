@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nosqldata
+  namespace: eshop-data
+  labels:
+    app.kubernetes.io/name: nosqldata
+    app.kubernetes.io/part-of: eshop
+    tier: data
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: nosqldata
+  ports:
+  - name: mongo
+    port: 27017
+    targetPort: 27017
+

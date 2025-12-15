@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basketdata
+  namespace: eshop-data
+  labels:
+    app.kubernetes.io/name: basketdata
+    app.kubernetes.io/part-of: eshop
+    tier: data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: basketdata
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: basketdata
+        app.kubernetes.io/part-of: eshop
+        tier: data
+    spec:
+      containers:
+      - name: basketdata
+        image: redis:alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: basketdata-pvc

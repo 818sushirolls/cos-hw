@@ -1,0 +1,38 @@
+# Production environment values for catalog-api
+namespace: eshop-prod
+replicaCount: 3
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 15
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 75
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+environment: Production
+connectionString: "Server=sqldata.eshop-data.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word"
+PicBaseUrl: "http://webshoppingapigw.eshop-gateways.svc.cluster.local/c/api/v1/catalog/items/[0]/pic/"
+EventBusConnection: "rabbitmq.eshop-data.svc.cluster.local"
+UseCustomizationData: true
+AzureServiceBusEnabled: true
+AzureStorageEnabled: true
+GRPC_PORT: 81
+PORT: 80
+PATH_BASE: /catalog-api
+
+ingress:
+  enabled: true
+  hosts:
+    - host: catalog-api.eshop.local
+      paths:
+        - path: /
+          pathType: Prefix
+

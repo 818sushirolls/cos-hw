@@ -1,0 +1,13 @@
+🛒 Basket API has been deployed!
+
+1. Get the application URL:
+{{- if contains "ClusterIP" .Values.service.type }}
+  kubectl port-forward svc/{{ include "basket-api.fullname" . }} 8080:{{ .Values.service.port }} -n {{ .Values.namespace }}
+  echo "Visit http://127.0.0.1:8080 to use your application"
+{{- end }}
+
+2. Test the health endpoint:
+  curl http://127.0.0.1:8080/hc
+
+3. Check HPA status (if enabled):
+  kubectl get hpa -n {{ .Values.namespace }}

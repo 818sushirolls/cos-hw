@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: seq
+  namespace: eshop-data
+  labels:
+    app.kubernetes.io/name: seq
+    app.kubernetes.io/part-of: eshop
+    tier: data
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: seq
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+

@@ -1,0 +1,12 @@
+apiVersion: v2
+name: webmvc
+description: A Helm chart for eShop WebMVC frontend application
+type: application
+version: 0.1.0
+appVersion: "1.0"
+keywords:
+  - eshop
+  - webmvc
+  - frontend
+maintainers:
+  - name: ew8nought

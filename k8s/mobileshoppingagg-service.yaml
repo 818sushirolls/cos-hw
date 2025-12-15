@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mobileshoppingagg
+  namespace: eshop-gateways
+  labels:
+    app.kubernetes.io/name: mobileshoppingagg
+    app.kubernetes.io/part-of: eshop
+    tier: gateway
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: mobileshoppingagg
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+

@@ -1,0 +1,29 @@
+# Development environment values for catalog-api
+namespace: eshop-apis
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+environment: Development
+connectionString: "Server=sqldata.eshop-data.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word"
+PicBaseUrl: "http://webshoppingapigw.eshop-gateways.svc.cluster.local/c/api/v1/catalog/items/[0]/pic/"
+EventBusConnection: "rabbitmq.eshop-data.svc.cluster.local"
+UseCustomizationData: true
+AzureServiceBusEnabled: false
+AzureStorageEnabled: false
+GRPC_PORT: 81
+PORT: 80
+PATH_BASE: /catalog-api
+
+ingress:
+  enabled: false
+

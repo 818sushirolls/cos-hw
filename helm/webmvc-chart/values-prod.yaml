@@ -1,0 +1,37 @@
+# Production environment values for webmvc
+namespace: eshop-prod
+replicaCount: 3
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+environment: Production
+PurchaseUrl: "http://webshoppingapigw.eshop-gateways.svc.cluster.local"
+IdentityUrl: "http://identity-api.eshop-apis.svc.cluster.local"
+SignalrHubUrl: "http://ordering-signalrhub.eshop-background.svc.cluster.local"
+IdentityUrlHC: "http://identity-api.eshop-apis.svc.cluster.local/hc"
+
+ingress:
+  enabled: true
+  hosts:
+    - host: shop.eshop.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: eshop-tls
+      hosts:
+        - shop.eshop.com
+

@@ -1,0 +1,31 @@
+# Production environment values for basket-api
+namespace: eshop-prod
+replicaCount: 2
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 65
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+environment: Production
+connectionString: "basketdata.eshop-data.svc.cluster.local"
+identityUrl: "http://identity-api.eshop-apis.svc.cluster.local"
+EventBusConnection: "rabbitmq.eshop-data.svc.cluster.local"
+
+ingress:
+  enabled: true
+  hosts:
+    - host: basket-api.eshop.local
+      paths:
+        - path: /
+          pathType: Prefix
+

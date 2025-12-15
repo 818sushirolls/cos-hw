@@ -1,0 +1,20 @@
+WebMVC has been deployed!
+
+1. Get the application URL:
+{{- if .Values.ingress.enabled }}
+{{- range $host := .Values.ingress.hosts }}
+  http://{{ $host.host }}
+{{- end }}
+{{- else if contains "ClusterIP" .Values.service.type }}
+  kubectl port-forward svc/{{ include "webmvc.fullname" . }} 3000:{{ .Values.service.port }} -n {{ .Values.namespace }}
+  echo "Visit http://127.0.0.1:3000 to access the shop"
+{{- end }}
+
+2. Test the health endpoint:
+  curl http://127.0.0.1:3000/hc
+
+3. Check HPA status (if enabled):
+  kubectl get hpa -n {{ .Values.namespace }}
+
+4. Access WebMVC in browser:
+  Open http://webmvc.eshop.local (ensure /etc/hosts is configured)

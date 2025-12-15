@@ -1,0 +1,29 @@
+# Development environment values for webmvc
+namespace: eshop-frontend
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+environment: Development
+PurchaseUrl: "http://webshoppingapigw.eshop-gateways.svc.cluster.local"
+IdentityUrl: "http://identity-api.eshop-apis.svc.cluster.local"
+SignalrHubUrl: "http://ordering-signalrhub.eshop-background.svc.cluster.local"
+IdentityUrlHC: "http://identity-api.eshop-apis.svc.cluster.local/hc"
+
+ingress:
+  enabled: true
+  hosts:
+    - host: webmvc.eshop.local
+      paths:
+        - path: /
+          pathType: Prefix
+

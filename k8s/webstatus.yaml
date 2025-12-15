@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webstatus
+  namespace: eshop-monitoring
+  labels:
+    app.kubernetes.io/name: webstatus
+    app.kubernetes.io/part-of: eshop
+    tier: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: webstatus
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: webstatus
+        app.kubernetes.io/part-of: eshop
+        tier: monitoring
+    spec:
+      containers:
+      - name: webstatus
+        image: ew8nought/webstatus:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        # Week 9: Liveness and Readiness Probes
+        livenessProbe:
+          httpGet:
+            path: /hc
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /hc
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: ASPNETCORE_URLS
+          value: http://0.0.0.0:80
+        - name: HealthChecksUI__HealthChecks__0__Name
+          value: WebMVC HTTP Check
+        - name: HealthChecksUI__HealthChecks__0__Uri
+          value: http://webmvc.eshop-frontend.svc.cluster.local/hc
+        - name: HealthChecksUI__HealthChecks__1__Name
+          value: WebSPA HTTP Check
+        - name: HealthChecksUI__HealthChecks__1__Uri
+          value: http://webspa.eshop-frontend.svc.cluster.local/hc
+        - name: HealthChecksUI__HealthChecks__2__Name
+          value: Web Shopping Aggregator GW HTTP Check
+        - name: HealthChecksUI__HealthChecks__2__Uri
+          value: http://webshoppingagg.eshop-gateways.svc.cluster.local/hc
+        - name: HealthChecksUI__HealthChecks__3__Name
+          value: Mobile Shopping Aggregator HTTP Check
+        - name: HealthChecksUI__HealthChecks__3__Uri
+          value: http://mobileshoppingagg.eshop-gateways.svc.cluster.local/hc
+        - name: HealthChecksUI__HealthChecks__4__Name
+          value: Ordering HTTP Check
+        - name: HealthChecksUI__HealthChecks__4__Uri
+          value: http://ordering-api.eshop-apis.svc.cluster.local/hc
+        - name: HealthChecksUI__HealthChecks__5__Name
+          value: Basket HTTP Check
+        - name: HealthChecksUI__HealthChecks__5__Uri
+          value: http://basket-api.eshop-apis.svc.cluster.local/hc
+        - name: HealthChecksUI__HealthChecks__6__Name
+          value: Catalog HTTP Check
+        - name: HealthChecksUI__HealthChecks__6__Uri
+          value: http://catalog-api.eshop-apis.svc.cluster.local/hc
+        - name: HealthChecksUI__HealthChecks__7__Name
+          value: Identity HTTP Check
+        - name: HealthChecksUI__HealthChecks__7__Uri
+          value: http://identity-api.eshop-apis.svc.cluster.local/hc
+        - name: HealthChecksUI__HealthChecks__8__Name
+          value: Payments HTTP Check
+        - name: HealthChecksUI__HealthChecks__8__Uri
+          value: http://payment-api.eshop-apis.svc.cluster.local/hc
+        - name: HealthChecksUI__HealthChecks__9__Name
+          value: Ordering SignalRHub HTTP Check
+        - name: HealthChecksUI__HealthChecks__9__Uri
+          value: http://ordering-signalrhub.eshop-background.svc.cluster.local/hc
+        - name: HealthChecksUI__HealthChecks__10__Name
+          value: Ordering HTTP Background Check
+        - name: HealthChecksUI__HealthChecks__10__Uri
+          value: http://ordering-backgroundtasks.eshop-background.svc.cluster.local/hc

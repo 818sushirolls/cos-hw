@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity-api
+  namespace: eshop-apis
+  labels:
+    app.kubernetes.io/name: identity-api
+    app.kubernetes.io/part-of: eshop
+    tier: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: identity-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: identity-api
+        app.kubernetes.io/part-of: eshop
+        tier: api
+    spec:
+      serviceAccountName: eshop-developer
+      containers:
+      - name: identity-api
+        image: ew8nought/identity-api:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        # Week 9: Liveness and Readiness Probes
+        livenessProbe:
+          httpGet:
+            path: /hc
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /hc
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: ASPNETCORE_URLS
+          value: http://0.0.0.0:80
+        - name: SpaClient
+          value: http://localhost:5104
+        - name: XamarinCallback
+          value: http://localhost:5105/xamarincallback
+        - name: ConnectionString
+          value: Server=sqldata.eshop-data.svc.cluster.local;Database=Microsoft.eShopOnContainers.Service.IdentityDb;User Id=sa;Password=Pass@word
+        - name: MvcClient
+          value: http://localhost:5100
+        - name: BasketApiClient
+          value: http://localhost:5103
+        - name: OrderingApiClient
+          value: http://localhost:5102
+        - name: MobileShoppingAggClient
+          value: http://localhost:5120
+        - name: WebShoppingAggClient
+          value: http://localhost:5121
+        - name: WebhooksApiClient
+          value: http://localhost:5113
+        - name: WebhooksWebClient
+          value: http://localhost:5114
+        - name: UseCustomizationData
+          value: "True"

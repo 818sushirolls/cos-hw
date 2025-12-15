@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eshop-frontend
+  labels:
+    tier: frontend
+    app: eshop
+    app.kubernetes.io/part-of: eshop
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eshop-gateways
+  labels:
+    tier: gateway
+    app: eshop
+    app.kubernetes.io/part-of: eshop
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eshop-apis
+  labels:
+    tier: api
+    app: eshop
+    app.kubernetes.io/part-of: eshop
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eshop-background
+  labels:
+    tier: background
+    app: eshop
+    app.kubernetes.io/part-of: eshop
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eshop-data
+  labels:
+    tier: data
+    app: eshop
+    app.kubernetes.io/part-of: eshop
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eshop-monitoring
+  labels:
+    tier: monitoring
+    app: eshop
+    app.kubernetes.io/part-of: eshop
+

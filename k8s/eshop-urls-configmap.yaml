@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eshop-urls
+  labels:
+    app.kubernetes.io/part-of: eshop
+data:
+  PURCHASE_URL: "http://webshoppingapigw.eshop-gateways.svc.cluster.local"
+  ESHOP_STORAGE_CATALOG_URL: "http://webshoppingapigw.eshop-gateways.svc.cluster.local/c/api/v1/catalog/items/[0]/pic/"
+  IdentityUrl: "http://identity-api.eshop-apis.svc.cluster.local"
+  IdentityUrlExternal: "http://localhost:5105"
+  BasketUrl: "http://basket-api.eshop-apis.svc.cluster.local"
+  CatalogUrl: "http://catalog-api.eshop-apis.svc.cluster.local"
+  OrderingUrl: "http://ordering-api.eshop-apis.svc.cluster.local"
+  SignalrHubUrl: "http://ordering-signalrhub.eshop-background.svc.cluster.local"
+
